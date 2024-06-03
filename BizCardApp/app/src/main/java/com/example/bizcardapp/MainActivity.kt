@@ -77,7 +77,12 @@ fun MyApp(){
                 title = "Todo App",
                 description = "Flutter/Dart",
                 image =  painterResource(id = R.drawable.todo),
-
+            )
+            Box(Modifier.height(10.dp))
+            PortfolioCard(
+                title = "Todo App",
+                description = "Flutter/Dart",
+                image =  painterResource(id = R.drawable.todo),
                 )
         }
 
