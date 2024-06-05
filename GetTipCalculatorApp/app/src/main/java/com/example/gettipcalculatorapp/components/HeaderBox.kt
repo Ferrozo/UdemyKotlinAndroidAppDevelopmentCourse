@@ -13,6 +13,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +26,11 @@ import com.example.gettipcalculatorapp.ui.theme.GreenColor
 
 
 @Composable
-fun HeaderBox(){
+fun HeaderBox(
+    totalBill: Double,
+    totalTip: Double,
+    totalPerPerson: Double,
+){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +53,7 @@ fun HeaderBox(){
             )
             Box(modifier = Modifier.height(10.dp))
             Text(
-                text = "$ 40.00",
+                text = "$ $totalPerPerson",
                 style = TextStyle(
                     fontSize = 40.sp,
                     color = GreenColor,
@@ -78,7 +83,7 @@ fun HeaderBox(){
                     )
                     Box(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "$ 40.00",
+                        text = "$ $totalBill",
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = GreenColor,
@@ -96,7 +101,7 @@ fun HeaderBox(){
                     )
                     Box(modifier = Modifier.height(10.dp))
                     Text(
-                        text = "$ 40.00",
+                        text = "$ $totalTip",
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = GreenColor,

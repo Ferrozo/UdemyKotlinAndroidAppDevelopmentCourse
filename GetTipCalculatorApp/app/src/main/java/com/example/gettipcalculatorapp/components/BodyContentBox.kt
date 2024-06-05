@@ -1,5 +1,4 @@
 package com.example.gettipcalculatorapp.components
-
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,19 +27,21 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.gettipcalculatorapp.ui.theme.GetTipCalculatorAppTheme
 import com.example.gettipcalculatorapp.ui.theme.GrayColor80
 import com.example.gettipcalculatorapp.ui.theme.GreenColor
 import com.example.gettipcalculatorapp.ui.theme.WhiteColor10
 
-
 @Composable
 fun BodyContentBox(
     valueState: MutableState<String>,
-    onValueChanged:(String) -> Unit = {}
+    onTextFieldValueChanged:(String) -> Unit = {},
+    onSlideTipValueChanged:(Float) -> Unit = {},
+    onSlidePersonValueChanged:(Float) -> Unit = {},
+    slideTipValue: MutableState<Float>,
+    slidePersonValue: MutableState<Float>,
+    percentage: Int,
 ){
     Surface(
         modifier = Modifier
@@ -99,7 +100,7 @@ fun BodyContentBox(
                         fontWeight = FontWeight.Bold,
                     ),
 
-                    onValueChange = onValueChanged,
+                    onValueChange = onTextFieldValueChanged,
                     shape = CircleShape,
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = WhiteColor10,
@@ -107,9 +108,7 @@ fun BodyContentBox(
                         focusedIndicatorColor = Color.Transparent,
 
                         ),
-
                 )
-
             }
             Box(modifier = Modifier.height(20.dp))
             Text(
@@ -121,26 +120,89 @@ fun BodyContentBox(
                 )
             )
             Box(modifier = Modifier.height(5.dp))
-            Slider(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ){
+                Text(
+                    text = "$percentage %",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        color = GreenColor,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+            Slider(
+                modifier = Modifier
+                    .fillMaxWidth(),
                         colors = SliderDefaults.colors(
                             activeTickColor = GreenColor,
                             activeTrackColor = GreenColor
                         ),
-                value = 2f, onValueChange ={} )
+                value = slideTipValue.value,
+                onValueChange = onSlideTipValueChanged  )
+            Text(
+                text = "Split",
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    color = GreenColor,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ){
+                Text(
+                    text = "${slidePersonValue.value.toInt()} persons",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        color = GreenColor,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+            Box(modifier = Modifier.height(5.dp))
+            Slider(
+                valueRange = 1f..20f,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                colors = SliderDefaults.colors(
+                    activeTickColor = GreenColor,
+                    activeTrackColor = GreenColor
+                ),
+                value = slidePersonValue.value,
+                onValueChange = onSlidePersonValueChanged)
             Box(modifier = Modifier.height(15.dp))
             Divider( modifier = Modifier,
                 color = Color.Gray.copy(0.1f,)
             )
-
+            Box(modifier = Modifier.height(20.dp))
+            Row (
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth() ,
+            ){
+                Text(
+                    text = "Split Total",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        color = GreenColor,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Text(
+                    text = "$${slidePersonValue.value}",
+                    style = TextStyle(
+                        fontSize =  20.sp,
+                        color = GreenColor,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MyAppPreview() {
-    GetTipCalculatorAppTheme {
-        MyApp()
-    }
-}
