@@ -38,9 +38,9 @@ fun MyApp(
                 .fillMaxSize(),
                 containerColor = DarkColor,
         )
-        {
+        { value ->
             Column(
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier.padding(value)
             ){
                content()
             }
