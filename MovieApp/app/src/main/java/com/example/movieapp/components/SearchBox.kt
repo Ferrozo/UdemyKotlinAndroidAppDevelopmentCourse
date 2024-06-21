@@ -1,52 +1,50 @@
 package com.example.movieapp.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.movieapp.MyApp
+import com.example.movieapp.R
 import com.example.movieapp.ui.theme.DarkColor
 import com.example.movieapp.ui.theme.WhiteColor
 
 @Composable
 fun SearchBox(
+    modifier: Modifier =Modifier,
     value : MutableState<String>,
     onChangedValue: (String)-> Unit,
 ){
     OutlinedTextField(
-        modifier = Modifier
-            .height(60.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         value = value.value,
             onValueChange = onChangedValue,
+        textStyle = TextStyle(
+            color = WhiteColor
+        ),
         prefix = {
                  Icon(
-                     imageVector = Icons.Default.Search,
+                     painter = painterResource(R.drawable.search),
                      contentDescription = "Search icon",
-                     tint = WhiteColor
+                     tint = WhiteColor,
+                     modifier = Modifier.size(15.dp)
                  )
         },
         suffix = {
             Icon(
-                imageVector = Icons.Filled.Add,
+                painter = painterResource(R.drawable.microphone),
                 contentDescription = "Search icon",
-                tint = WhiteColor
+                tint = WhiteColor,
+                modifier = Modifier.size(20.dp)
             )
         },
         placeholder = {
@@ -61,7 +59,9 @@ fun SearchBox(
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = DarkColor,
             focusedContainerColor = DarkColor,
-
-        )
+            focusedIndicatorColor = WhiteColor.copy(alpha = 0.5f),
+            focusedTextColor = WhiteColor,
+        ),
+        singleLine = true,
     )
 }

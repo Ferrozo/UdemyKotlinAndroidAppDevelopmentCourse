@@ -26,27 +26,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.movieapp.MyApp
 import com.example.movieapp.R
+import com.example.movieapp.models.MovieModel
+import com.example.movieapp.ui.theme.DarkColor
 import com.example.movieapp.ui.theme.OrangeColor
 import com.example.movieapp.ui.theme.WhiteColor
 
 @Composable
-fun MovieSliderCard(){
+fun MovieSliderCard(
+    movie: MovieModel
+){
     Surface(
-        color = Color.Transparent,
+        color = Color.Black.copy(alpha = 0.7f),
         modifier = Modifier
-            .height(200.dp),
+            .height(200.dp)
+            .padding(horizontal = 15.dp)
+        ,
         border = BorderStroke(width = 1.dp, color = WhiteColor.copy(alpha = 0.7f)),
         shape = CircleShape.copy(all = CornerSize(5.dp)),
     ) {
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(
@@ -55,13 +64,24 @@ fun MovieSliderCard(){
                 )
             ,
             contentScale = ContentScale.Crop,
-            painter = painterResource(id = R.drawable.cover),
+            model  = ImageRequest.Builder(LocalContext.current)
+            .data(movie.img)
+            .crossfade(true)
+            .build(),
             contentDescription = "Artist image")
+        Surface(
+            modifier = Modifier
+                .fillMaxSize(),
+            color = DarkColor.copy(0.5f),
+        ){
+
+        }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 170.dp, start = 10.dp)
     ) {
+
             Surface(
                 modifier = Modifier
                     .height(20.dp)
@@ -77,121 +97,6 @@ fun MovieSliderCard(){
                     )
                 )
             }
-        }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    val value = remember{
-        mutableStateOf("")
-    }
-    val verticalScroll = rememberScrollState()
-    MyApp {
-        Column(
-            modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
-        ) {
-            SearchBox(
-                value = value,
-                onChangedValue = {
-
-                }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            MovieSliderCard()
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-
-        )
-
-        {
-            Decorator(color = OrangeColor)
-            Spacer(modifier = Modifier.width(5.dp))
-            Decorator(color = WhiteColor.copy(alpha = 0.5f))
-            Spacer(modifier = Modifier.width(5.dp))
-            Decorator(color = WhiteColor.copy(alpha = 0.5f))
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-        modifier = Modifier
-            .fillMaxWidth()
-        ){
-            OutlineBtn(
-                title = "All",
-                onClick = {
-
-                }
-            )
-            OutlineBtn(
-                title = "Crime",
-                onClick = {
-
-                }
-            )
-            OutlineBtn(
-                title = "Drama",
-                onClick = {
-
-                }
-            )
-            OutlineBtn(
-                title = "Animation",
-                onClick = {
-
-                }
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-        ){
-            Text(
-                text = "Trending Now",
-                style = TextStyle(
-                    color = WhiteColor,
-                    fontSize = 18.sp,
-                )
-            )
-            TextButton(
-                onClick = {}
-            ){
-                Text(
-                    text = "Trending Now",
-                    style = TextStyle(
-                        color = OrangeColor,
-                        fontSize = 12.sp,
-                        textDecoration = TextDecoration.Underline
-                    )
-                )
-            }
-
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(
-                    enabled = true,
-                    state= verticalScroll
-                )
-        ){
-            MovieCard(isOnMiddle = false)
-            Spacer(modifier = Modifier.width(5.dp))
-            MovieCard(isOnMiddle = true)
-            Spacer(modifier = Modifier.width(5.dp))
-            MovieCard(isOnMiddle = false)
         }
     }
 }
