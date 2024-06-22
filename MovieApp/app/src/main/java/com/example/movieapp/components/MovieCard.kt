@@ -2,6 +2,7 @@ package com.example.movieapp.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -32,13 +33,17 @@ import com.example.movieapp.ui.theme.WhiteColor
 @Composable
 fun MovieCard(
     movie: MovieModel,
-    isOnMiddle: Boolean
+    isOnMiddle: Boolean,
+    onMovieClick: () -> Unit
 ){
     Surface(
         color = Color.Transparent,
         modifier = Modifier
             .height(if(isOnMiddle) 200.dp else 180.dp)
             .width(if(isOnMiddle) 135.dp else 145.dp)
+            .clickable {
+                onMovieClick()
+            }
         ,
         border = BorderStroke(width = 1.dp, color = WhiteColor.copy(alpha = 0.7f)),
         shape = CircleShape.copy(all = CornerSize(5.dp)),
@@ -58,7 +63,7 @@ fun MovieCard(
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
-            color = DarkColor.copy(0.4f),
+            color = DarkColor.copy(0.3f),
         ){
 
         }

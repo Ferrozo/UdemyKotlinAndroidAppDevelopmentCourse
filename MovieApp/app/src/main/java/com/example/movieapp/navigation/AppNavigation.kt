@@ -23,10 +23,10 @@ fun AppNavigation(){
         }
 
         composable(
-            AppScreens.DetailScreen.name+"/{movie}",
-            arguments = listOf(navArgument(name = "movie"){type= NavType.StringType}),
+            AppScreens.DetailScreen.name+"/{movieID}",
+            arguments = listOf(navArgument(name = "movieID"){type= NavType.StringType}),
             ){backStackEntry ->
-            DetailScreen(navController = navController, backStackEntry.arguments?.getString("movie"))
+            DetailScreen(navController = navController, backStackEntry.arguments?.getString("movieID"))
         }
 
         composable(AppScreens.SearchScreen.name){
