@@ -1,11 +1,13 @@
 package com.example.noteapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.example.noteapp.NoteViewModel
 import com.example.noteapp.screens.HomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @Composable
@@ -17,7 +19,7 @@ fun AppNavigation(){
         startDestination = AppScreens.HomeScreen.name
     ){
         composable(AppScreens.HomeScreen.name){
-            HomeScreen(navController = navController)
+            HomeScreen()
         }
 //
 //        composable(
