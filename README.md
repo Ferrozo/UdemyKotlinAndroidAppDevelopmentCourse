@@ -1,6 +1,6 @@
 # Android Jetpack Compose: The Comprehensive Bootcamp Course
 
-The pourpose of this repository is to show everything I have learn during the this course.
+The purpose of this repository is to show everything I learned during this course.
 
 The course link click <a href="https://www.udemy.com/course/kotling-android-jetpack-compose-/?couponCode=KEEPLEARNING">here</a>
 
