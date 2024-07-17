@@ -76,11 +76,17 @@ dependencies {
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+    //Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     //Dagger Hilt
     //    kapt(libs.dagger.hilt.android.compiler)
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
