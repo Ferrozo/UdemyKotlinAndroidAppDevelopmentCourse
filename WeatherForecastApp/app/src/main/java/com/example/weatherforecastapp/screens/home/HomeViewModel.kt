@@ -18,7 +18,13 @@ class HomeViewModel @Inject constructor (private val repository: WeatherReposito
     val data: MutableState<DataOrException<Weather, Boolean, Exception>>
     = mutableStateOf(DataOrException(null, true, Exception("")))
 
+    val currentLocationData: MutableState<DataOrException<Weather, Boolean, Exception>>
+            = mutableStateOf(DataOrException(null, true, Exception("")))
     suspend fun getWeather(city: String): DataOrException<Weather, Boolean, Exception>{
         return repository.getWeather(cityQuery = city)
+    }
+
+    suspend fun getWeatherByCoord(lat: Double, lon: Double): DataOrException<Weather, Boolean, Exception>{
+        return repository.getWeatherByCoord(lat, lon)
     }
 }

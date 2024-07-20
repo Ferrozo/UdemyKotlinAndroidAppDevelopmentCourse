@@ -9,8 +9,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -27,15 +29,18 @@ import com.example.weatherforecastapp.ui.theme.WhiteColor
 
 @Composable
 fun SearchBox(
-    text: String = " Search for a city or airport",
+    value: String,
     onValueChange: (String) -> Unit = {},
-    navController: NavController
+//    navController: NavController
 ){
     TextField(
         modifier = Modifier
             .height(56.dp)
             .fillMaxWidth(),
         shape = CircleShape.copy(all = CornerSize(10.dp)),
+        placeholder = {
+                      Text(text =" Search for a city or airport")
+        },
         colors =   TextFieldDefaults.colors(
             focusedTextColor =  Color.Gray.copy(alpha = 0.5f),
             focusedContainerColor = Color.Gray.copy(alpha = 0.2f),
@@ -43,12 +48,13 @@ fun SearchBox(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
         ),
+        singleLine = true,
         textStyle =  TextStyle(
             color = WhiteColor.copy(alpha = 0.7f),
             fontSize = 14.sp,
         ),
         prefix = {
-                if(text.isEmpty()){
+                if(value.trim().isEmpty()){
                     Icon(
                         painterResource(id = R.drawable.search),
                         contentDescription = null,
@@ -57,18 +63,19 @@ fun SearchBox(
                     )
                 } else {
                      Icon(
-                         Icons.Default.ArrowBack,
+                         Icons.Default.Clear,
                             contentDescription = null,
                             tint = WhiteColor.copy(alpha = 0.7f),
                             modifier = Modifier
                                 .size(20.dp)
                                 .clickable {
-                                navController.popBackStack()
+                                    onValueChange("")
+//                                navController.popBackStack()
                             }
                      )
                 }
         },
-        value = text,
+        value = value,
         onValueChange = onValueChange
     )
 }

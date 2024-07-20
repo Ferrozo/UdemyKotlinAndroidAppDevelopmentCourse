@@ -15,4 +15,11 @@ interface WeatherAPI {
         @Query("units") units: String = "imperial",
         @Query("appid") appid: String = Constants.API_KEY
     ): Weather
+
+    suspend fun getWeatherByCoord(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("units") units: String = "imperial",
+        @Query("appid") appid: String = Constants.API_KEY
+    ): Weather
 }

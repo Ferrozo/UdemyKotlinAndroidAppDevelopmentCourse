@@ -25,10 +25,4 @@ class AppModule {
             .build()
             .create(WeatherAPI::class.java)
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideWeatherRepository(repository: WeatherRepository): {
-//        return repository.getWeather()
-//    }
 }
