@@ -113,6 +113,7 @@ dependencies {
 //    ksp("androidx.room:room-compiler:2.6.1")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 }
 
 kapt {

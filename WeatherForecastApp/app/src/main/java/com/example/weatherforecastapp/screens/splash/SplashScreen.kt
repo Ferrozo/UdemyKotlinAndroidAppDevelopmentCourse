@@ -26,7 +26,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.weatherforecastapp.R
 import com.example.weatherforecastapp.navigation.AppScreens
+import com.example.weatherforecastapp.util.getCurrentLocation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(navController: NavController){
@@ -41,7 +45,7 @@ fun SplashScreen(navController: NavController){
                 OvershootInterpolator(8f).getInterpolation(it)
             }
         ))
-            delay(timeMillis = 5000L)
+        delay(timeMillis = 5000L)
         navController.navigate(AppScreens.HomeScreen.name)
     }
     Column(
