@@ -46,3 +46,7 @@ suspend fun getCurrentLocation(context: Context): LocationResult {
         }
     }
 }
+
+fun fahrenheitToCelsius(fahrenheit: Double): Double {
+    return (fahrenheit - 32) * 5.0 / 9.0
+}
