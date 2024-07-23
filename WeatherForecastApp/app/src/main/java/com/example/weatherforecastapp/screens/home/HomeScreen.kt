@@ -2,9 +2,7 @@ package com.example.weatherforecastapp.screens.home
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.view.animation.OvershootInterpolator
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.scrollable
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,15 +31,11 @@ import com.example.weatherforecastapp.components.HomeTopAppBar
 import com.example.weatherforecastapp.components.WeatherCard
 import com.example.weatherforecastapp.data.DataOrException
 import com.example.weatherforecastapp.model.Weather
-import com.example.weatherforecastapp.navigation.AppScreens
 import com.example.weatherforecastapp.ui.theme.BlackColor
 import com.example.weatherforecastapp.ui.theme.WhiteColor
 import com.example.weatherforecastapp.util.LocationResult
 import com.example.weatherforecastapp.util.getCurrentLocation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 @Composable
 fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel){
@@ -56,7 +50,6 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
 
     LaunchedEffect(Unit) {
         try {
-            // Ensure permissions are granted
             val permissionGranted = ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -65,19 +58,22 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
             if (permissionGranted) {
                 location.value = getCurrentLocation(context)
                 isLocationFetched.value = true
+                location.value?.let {
+                    //
+                }
             } else {
-                // Handle the case where location permission is not granted
-                // You might want to request permission here if necessary
+                //
             }
         } catch (e: Exception) {
-            // Log or handle exception
-            e.printStackTrace()
+                //
         }
     }
 
-    val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(initialValue = DataOrException(loading = true)) {
+    val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
+        initialValue = DataOrException(loading = true)
+    ) {
         value = homeViewModel.getWeather("Lubango")
-    }.value
+    }
 
     Scaffold(
         topBar = {
@@ -86,14 +82,13 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
         containerColor = BlackColor
     ) {
         Column(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .padding(it)
                 .fillMaxSize()
         ) {
-            if(weatherData.loading == true){
+            if (weatherData.value.loading == true) {
                 Text(text = "Loading")
-            } else if(weatherData.data != null){
+            } else if (weatherData.value.data != null) {
                 Column(
                     modifier = Modifier
                         .padding(20.dp)
@@ -109,9 +104,8 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                             fontWeight = FontWeight.Bold
                         )
                     )
-                    LocationDisplay(location = location.value)
                     Spacer(modifier = Modifier.height(20.dp))
-                    WeatherCard(weather = weatherData.data!! )
+                    CurrentCityWeather(location = location.value, homeViewModel = homeViewModel)
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Favorite List",
@@ -121,15 +115,14 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                             fontWeight = FontWeight.Bold
                         )
                     )
-
                     Spacer(modifier = Modifier.height(20.dp))
-                    DarkWeatherCard(weather = weatherData.data!! )
+                    DarkWeatherCard(weather = weatherData.value.data!!)
                     Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.data!! )
+                    DarkWeatherCard(weather = weatherData.value.data!!)
                     Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.data!! )
+                    DarkWeatherCard(weather = weatherData.value.data!!)
                     Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.data!! )
+                    DarkWeatherCard(weather = weatherData.value.data!!)
                 }
             } else {
                 Text(
@@ -144,12 +137,30 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
         }
     }
 }
-
 @Composable
-fun LocationDisplay(location: LocationResult?) {
+fun CurrentCityWeather(location: LocationResult?, homeViewModel: HomeViewModel) {
+    val currentCityWeatherData = produceState<DataOrException<Weather, Boolean, Exception>>(initialValue = DataOrException(loading = true)) {
+        if (location != null) {
+            try {
+                value = homeViewModel.getWeatherByCoord(lat = location.latitude, lon = location.longitude)
+            } catch (e: Exception) {
+                Log.e("WeatherError", "Exception while fetching weather: ${e.message}")
+                value = DataOrException(e = e)
+            }
+        }
+    }.value
+
     if (location != null) {
-        Text(text = "Latitude: ${location.latitude}, Longitude: ${location.longitude}", style = TextStyle(color = Color.White))
+        Column {
+            if (currentCityWeatherData.loading == true) {
+                Text(text = "Loading current city weather...", style = TextStyle(color = Color.White))
+            } else if (currentCityWeatherData.data != null) {
+                WeatherCard(weather = currentCityWeatherData.data!!)
+            } else if (currentCityWeatherData.e != null) {
+                Text(text = "Error loading weather data: ${currentCityWeatherData.e?.message}", style = TextStyle(color = Color.Red))
+            }
+        }
     } else {
-        Text(text = "Fetching location...", style = TextStyle(color = Color.White) )
+        Text(text = "Fetching location...", style = TextStyle(color = Color.White))
     }
 }

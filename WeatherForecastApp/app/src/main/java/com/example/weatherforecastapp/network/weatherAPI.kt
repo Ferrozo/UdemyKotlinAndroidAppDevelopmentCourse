@@ -16,6 +16,7 @@ interface WeatherAPI {
         @Query("appid") appid: String = Constants.API_KEY
     ): Weather
 
+    @GET(value ="data/2.5/weather")
     suspend fun getWeatherByCoord(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
