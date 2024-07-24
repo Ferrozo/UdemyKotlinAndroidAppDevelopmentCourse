@@ -10,14 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.weatherforecastapp.ui.theme.DarkGray
 import com.example.weatherforecastapp.ui.theme.WhiteColor
 
 @Composable
@@ -40,14 +37,6 @@ fun HomeTopAppBar(
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Light rain for the next hour",
-            style = TextStyle(
-                color = Color.Gray.copy(alpha = 0.5f),
-                fontSize = 14.sp,
-                )
         )
         Spacer(modifier = Modifier.height(10.dp))
         SearchBox(value= value.value, onValueChange = {value.value = it})

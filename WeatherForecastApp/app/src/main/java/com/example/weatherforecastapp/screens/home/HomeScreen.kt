@@ -44,10 +44,16 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel){
 
 @Composable
 fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
-    val context = LocalContext.current
     val location = remember { mutableStateOf<LocationResult?>(null) }
-    val isLocationFetched = remember { mutableStateOf(false) }
 
+    val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
+        initialValue = DataOrException(loading = true)
+    ) {
+        value = homeViewModel.getWeather("Lubango")
+    }
+
+    val context = LocalContext.current
+    val isLocationFetched = remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         try {
             val permissionGranted = ContextCompat.checkSelfPermission(
@@ -59,20 +65,11 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                 location.value = getCurrentLocation(context)
                 isLocationFetched.value = true
                 location.value?.let {
-                    //
                 }
-            } else {
-                //
             }
         } catch (e: Exception) {
-                //
+            //
         }
-    }
-
-    val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
-        initialValue = DataOrException(loading = true)
-    ) {
-        value = homeViewModel.getWeather("Lubango")
     }
 
     Scaffold(

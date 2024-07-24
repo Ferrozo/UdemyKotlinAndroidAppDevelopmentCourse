@@ -114,6 +114,9 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.6.1")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+//    Permission
+    implementation ("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 }
 
 kapt {

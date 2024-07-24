@@ -1,9 +1,8 @@
 package com.example.weatherforecastapp
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -30,10 +29,17 @@ class MainActivity : ComponentActivity() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                // Permission is granted. Continue the action or workflow in your app.
+               val successTextMessage = "Well done"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(this, successTextMessage, duration)
+                toast.show()
+
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied.
+                val errorTextMessage = "You need to enable location service "
+                val duration = Toast.LENGTH_SHORT
+
+                val toast = Toast.makeText(this, errorTextMessage, duration)
+                toast.show()
             }
         }
 
@@ -42,15 +48,10 @@ class MainActivity : ComponentActivity() {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
-                // You can use the API that requires the permission.
             }
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected, and then
-                // prompt the user once more to grant the permission.
             }
             else -> {
-                // You can directly ask for the permission.
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
