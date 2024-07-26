@@ -2,7 +2,6 @@ package com.example.weatherforecastapp.screens.home
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,10 +30,12 @@ import com.example.weatherforecastapp.components.HomeTopAppBar
 import com.example.weatherforecastapp.components.WeatherCard
 import com.example.weatherforecastapp.data.DataOrException
 import com.example.weatherforecastapp.model.Weather
+import com.example.weatherforecastapp.navigation.AppScreens
 import com.example.weatherforecastapp.ui.theme.BlackColor
 import com.example.weatherforecastapp.ui.theme.WhiteColor
 import com.example.weatherforecastapp.util.LocationResult
 import com.example.weatherforecastapp.util.getCurrentLocation
+import com.google.gson.Gson
 
 
 @Composable
@@ -49,7 +50,7 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
-        value = homeViewModel.getWeather("Lubango")
+        value = homeViewModel.getWeather("Paris")
     }
 
     val context = LocalContext.current
@@ -102,7 +103,12 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                         )
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    CurrentCityWeather(location = location.value, homeViewModel = homeViewModel)
+                    CurrentCityWeather(
+                        navController  = navController,
+                        location = location.value,
+                        homeViewModel = homeViewModel,
+
+                        )
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = "Favorite List",
@@ -113,13 +119,13 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                         )
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    DarkWeatherCard(weather = weatherData.value.data!!)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.value.data!!)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.value.data!!)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    DarkWeatherCard(weather = weatherData.value.data!!)
+                    DarkWeatherCard(
+                        weather = weatherData.value.data!!,
+                        onClicked = {
+                                val weatherJson = Gson().toJson(weatherData.value.data!!)
+                                navController.navigate("${AppScreens.DetailScreen.name}/$weatherJson")
+                        }
+                    )
                 }
             } else {
                 Text(
@@ -135,13 +141,16 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
     }
 }
 @Composable
-fun CurrentCityWeather(location: LocationResult?, homeViewModel: HomeViewModel) {
+fun CurrentCityWeather(
+    navController: NavController,
+    location: LocationResult?,
+    homeViewModel: HomeViewModel,
+) {
     val currentCityWeatherData = produceState<DataOrException<Weather, Boolean, Exception>>(initialValue = DataOrException(loading = true)) {
         if (location != null) {
             try {
                 value = homeViewModel.getWeatherByCoord(lat = location.latitude, lon = location.longitude)
             } catch (e: Exception) {
-                Log.e("WeatherError", "Exception while fetching weather: ${e.message}")
                 value = DataOrException(e = e)
             }
         }
@@ -152,7 +161,13 @@ fun CurrentCityWeather(location: LocationResult?, homeViewModel: HomeViewModel) 
             if (currentCityWeatherData.loading == true) {
                 Text(text = "Loading current city weather...", style = TextStyle(color = Color.White))
             } else if (currentCityWeatherData.data != null) {
-                WeatherCard(weather = currentCityWeatherData.data!!)
+                WeatherCard(
+                    weather = currentCityWeatherData.data!!,
+                    onClicked = {
+                        val weatherJson = Gson().toJson(currentCityWeatherData.data)
+                        navController.navigate("${AppScreens.DetailScreen.name}/$weatherJson")
+                    }
+                )
             } else if (currentCityWeatherData.e != null) {
                 Text(text = "Error loading weather data: ${currentCityWeatherData.e?.message}", style = TextStyle(color = Color.Red))
             }

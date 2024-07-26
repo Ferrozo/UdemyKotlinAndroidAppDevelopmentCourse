@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,7 +40,7 @@ fun SearchBox(
             .fillMaxWidth(),
         shape = CircleShape.copy(all = CornerSize(10.dp)),
         placeholder = {
-                      Text(text =" Search for a city or airport")
+                      Text(text =" Search for a city")
         },
         colors =   TextFieldDefaults.colors(
             focusedTextColor =  Color.Gray.copy(alpha = 0.5f),
@@ -51,7 +52,7 @@ fun SearchBox(
         singleLine = true,
         textStyle =  TextStyle(
             color = WhiteColor.copy(alpha = 0.7f),
-            fontSize = 14.sp,
+            fontSize = 18.sp,
         ),
         prefix = {
                 if(value.trim().isEmpty()){
@@ -70,10 +71,23 @@ fun SearchBox(
                                 .size(20.dp)
                                 .clickable {
                                     onValueChange("")
-//                                navController.popBackStack()
                             }
                      )
                 }
+        },
+        suffix = {
+            if(value.trim().isNotEmpty()){
+                Icon(
+                    Icons.Default.ArrowForward,
+                    contentDescription = null,
+                    tint = WhiteColor.copy(alpha = 0.7f),
+                    modifier = Modifier.size(20.dp)
+                        .clickable {
+
+                        }
+
+                )
+            }
         },
         value = value,
         onValueChange = onValueChange

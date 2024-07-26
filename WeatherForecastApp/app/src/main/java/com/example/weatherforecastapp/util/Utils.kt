@@ -21,7 +21,7 @@ fun formatDate(timestamp: Int ): String {
 
 @SuppressLint("SimpleDateFormat")
 fun formatTime(timestamp: Int ): String {
-    val sdf = SimpleDateFormat("HH:mm:aa")
+    val sdf = SimpleDateFormat("HH:mm")
     val date = java.util.Date(timestamp * 1000L)
     return sdf.format(date)
 }

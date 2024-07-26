@@ -1,5 +1,6 @@
 package com.example.weatherforecastapp.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,13 +27,16 @@ import com.example.weatherforecastapp.util.formatDate
 
 @Composable
 fun WeatherCard(
-     weather: Weather
+     weather: Weather,
+     onClicked: ()-> Unit,
 ){
     val temperatureCelsius = fahrenheitToCelsius(weather.main.temp)
     Surface(
         modifier = Modifier
             .height(130.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClicked()}
+        ,
             shape = CircleShape.copy(all = CornerSize(20.dp)),
             color = WhiteColor.copy(alpha = 0.9f)
     ) {

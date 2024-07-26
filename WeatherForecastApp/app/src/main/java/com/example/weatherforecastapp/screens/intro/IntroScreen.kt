@@ -58,7 +58,7 @@ fun IntroScreen(
                     topStart = CornerSize(0.dp),
                     topEnd = CornerSize(250.dp),
                     bottomEnd = CornerSize(250.dp), bottomStart = CornerSize(120.dp)),
-                color = DarkGray.copy(alpha = 0.5f)
+                color = DarkGray.copy(alpha = 0.65f)
             ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
@@ -143,7 +143,9 @@ fun IntroScreen(
                         onClick = {
                             when {
                                 locationPermissionState.status.isGranted -> {
-                                    navController.navigate(AppScreens.HomeScreen.name)
+                                    navController.navigate(AppScreens.HomeScreen.name){
+                                        popUpTo(navController.graph.id) { inclusive = true }
+                                    }
                                 }
                                 locationPermissionState.status.shouldShowRationale -> {
                                     locationPermissionState.launchPermissionRequest()

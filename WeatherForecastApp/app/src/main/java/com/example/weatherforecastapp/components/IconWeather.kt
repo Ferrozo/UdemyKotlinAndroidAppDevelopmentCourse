@@ -12,8 +12,10 @@ import coil.request.ImageRequest
 fun IconWeather(image: String){
     val imageUrl = "https://openweathermap.org/img/wn/${image}.png";
 
-    AsyncImage(model =  ImageRequest.Builder(LocalContext.current)
+    AsyncImage(
+        model =  ImageRequest.Builder(LocalContext.current)
         .data(imageUrl)
         .crossfade(true)
-        .build(), contentDescription = null,modifier = Modifier.size(50.dp) )
+        .build(), contentDescription = null,modifier = Modifier.size(50.dp)
+    )
 }
