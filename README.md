@@ -23,11 +23,24 @@ Learn some advaced comopsable elements and learn about navigation in Jetpack Com
 </div>
 
 ### Jet Trivia App
-A a QUiz app Android development with Jetpack Compose. 
+A Quiz app Android development with Jetpack Compose. 
 Learn about Dependence Injection with Hilt and some concepts : leverage Hilt and Dagger and add Dependency Injection into a Jetpack Compose Android App.
 Use of Retroift to parse data, Coroutines and get remote data from api.
 
 ## Screenshots
 <div>
     <img src='JeTriviaApp.jpg' alt=""/>
+</div>
+
+### Weather Forecast App
+A Weather app Android development with Jetpack Compose. 
+Learn about Dependence Injection with Hilt and some concepts : leverage Hilt and Dagger and add Dependency Injection into a Jetpack Compose Android App and work with API.
+Use of Retroift to parse data, Coroutines and get remote data from api.
+
+## Screenshots
+<div>
+    <img src='weatherAppGig.gif' alt=""/>
+</div>
+<div>
+    <img src='WeatherApp.jpg' alt=""/>
 </div>

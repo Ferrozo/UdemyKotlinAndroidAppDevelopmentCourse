@@ -32,7 +32,8 @@ import com.example.weatherforecastapp.ui.theme.WhiteColor
 fun SearchBox(
     value: String,
     onValueChange: (String) -> Unit = {},
-//    navController: NavController
+    navController: NavController,
+    onSearch: (String) -> Unit = {},
 ){
     TextField(
         modifier = Modifier
@@ -83,7 +84,7 @@ fun SearchBox(
                     tint = WhiteColor.copy(alpha = 0.7f),
                     modifier = Modifier.size(20.dp)
                         .clickable {
-
+                            onSearch(value)
                         }
 
                 )

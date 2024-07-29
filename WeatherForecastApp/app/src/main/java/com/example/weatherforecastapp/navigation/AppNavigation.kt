@@ -32,9 +32,10 @@ fun AppNavigation(){
             val homeViewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(navController = navController, homeViewModel = homeViewModel)
         }
-        composable("${AppScreens.DetailScreen.name}/{weather}",
+        composable(
+            "${AppScreens.DetailScreen.name}/{weather}",
             arguments = listOf(navArgument("weather") { type = NavType.StringType })
-            ){backStackEntry ->
+        ) { backStackEntry ->
             val weatherJson = backStackEntry.arguments?.getString("weather")
             val weather = Gson().fromJson(weatherJson, Weather::class.java)
             DetailScreen(navController = navController, weather = weather)

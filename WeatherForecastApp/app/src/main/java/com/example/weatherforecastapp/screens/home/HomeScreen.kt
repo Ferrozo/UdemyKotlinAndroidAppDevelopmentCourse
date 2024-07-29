@@ -52,10 +52,14 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
     ) {
         value = homeViewModel.getWeather("Paris")
     }
+    val cityWeatherData = remember { mutableStateOf(listOf<DataOrException<Weather, Boolean, Exception>>()) }
+    val cities = listOf("Paris", "New York","Tokyo", "Sydney")
 
     val context = LocalContext.current
     val isLocationFetched = remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
+        val fetchedWeatherData = homeViewModel.fetchWeatherForCities(cities)
+        cityWeatherData.value = fetchedWeatherData
         try {
             val permissionGranted = ContextCompat.checkSelfPermission(
                 context,
@@ -75,7 +79,7 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
 
     Scaffold(
         topBar = {
-            HomeTopAppBar(navController)
+            HomeTopAppBar(navController= navController, homeViewModel = homeViewModel)
         },
         containerColor = BlackColor
     ) {
@@ -119,13 +123,23 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
                         )
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    DarkWeatherCard(
-                        weather = weatherData.value.data!!,
-                        onClicked = {
-                                val weatherJson = Gson().toJson(weatherData.value.data!!)
-                                navController.navigate("${AppScreens.DetailScreen.name}/$weatherJson")
+                    cityWeatherData.value.forEach { weatherData ->
+                        if (weatherData.data != null) {
+                            DarkWeatherCard(
+                                weather = weatherData.data!!,
+                                onClicked = {
+                                    val weatherJson = Gson().toJson(weatherData.data)
+                                    navController.navigate("${AppScreens.DetailScreen.name}/$weatherJson")
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        } else if (weatherData.e != null) {
+                            Text(
+                                text = "Error loading weather data: ${weatherData.e?.message}",
+                                style = TextStyle(color = Color.Red)
+                            )
                         }
-                    )
+                    }
                 }
             } else {
                 Text(
@@ -144,32 +158,36 @@ fun DisplayWeather(homeViewModel: HomeViewModel, navController: NavController) {
 fun CurrentCityWeather(
     navController: NavController,
     location: LocationResult?,
-    homeViewModel: HomeViewModel,
+    homeViewModel: HomeViewModel
 ) {
-    val currentCityWeatherData = produceState<DataOrException<Weather, Boolean, Exception>>(initialValue = DataOrException(loading = true)) {
-        if (location != null) {
+    val weatherState = remember { mutableStateOf<DataOrException<Weather, Boolean, Exception>>(DataOrException(loading = true)) }
+    val isWeatherFetched = remember { mutableStateOf(false) }
+
+    LaunchedEffect(location) {
+        if (location != null && !isWeatherFetched.value) {
             try {
-                value = homeViewModel.getWeatherByCoord(lat = location.latitude, lon = location.longitude)
+                weatherState.value = homeViewModel.getWeatherByCoord(lat = location.latitude, lon = location.longitude)
+                isWeatherFetched.value = true
             } catch (e: Exception) {
-                value = DataOrException(e = e)
+                weatherState.value = DataOrException(e = e)
             }
         }
-    }.value
+    }
 
     if (location != null) {
         Column {
-            if (currentCityWeatherData.loading == true) {
+            if (weatherState.value.loading == true) {
                 Text(text = "Loading current city weather...", style = TextStyle(color = Color.White))
-            } else if (currentCityWeatherData.data != null) {
+            } else if (weatherState.value.data != null) {
                 WeatherCard(
-                    weather = currentCityWeatherData.data!!,
+                    weather = weatherState.value.data!!,
                     onClicked = {
-                        val weatherJson = Gson().toJson(currentCityWeatherData.data)
+                        val weatherJson = Gson().toJson(weatherState.value.data)
                         navController.navigate("${AppScreens.DetailScreen.name}/$weatherJson")
                     }
                 )
-            } else if (currentCityWeatherData.e != null) {
-                Text(text = "Error loading weather data: ${currentCityWeatherData.e?.message}", style = TextStyle(color = Color.Red))
+            } else if (weatherState.value.e != null) {
+                Text(text = "Error loading weather data: ${weatherState.value.e?.message}", style = TextStyle(color = Color.Red))
             }
         }
     } else {
