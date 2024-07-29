@@ -38,10 +38,13 @@ Learn about Dependence Injection with Hilt and some concepts : leverage Hilt and
 Use of Retroift to parse data, Coroutines and get remote data from api.
 Work with permission and geo location to get current user location city
 
-## Screenshots
+## Video demo
 <div>
-    <img src='weatherAppGig.gif' alt=""/>
+    <img src='weatherAppGig.gif' alt="" width=280/>
 </div>
+
+## Screenshots
+
 <div>
     <img src='WeatherApp.jpg' alt=""/>
 </div>
