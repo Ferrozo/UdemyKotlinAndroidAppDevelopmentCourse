@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6832b5ea-ad8f-4b5d-900d-f384087899e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/NoteApp/app/src/main/java/com/example/noteapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/NoteApp/app/src/main/java/com/example/noteapp/MainActivity.kt" afterDir="false" />
-    </list>
+    <list default="true" id="6832b5ea-ad8f-4b5d-900d-f384087899e2" name="Changes" comment="Weather App" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +39,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Martins Gouveia/Documents/www/udemy/JetTriviaApp",
+    "last_opened_file_path": "C:/Users/Martins Gouveia/Documents/www/udemy",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -57,6 +55,27 @@
       <option name="presentableId" value="Default" />
       <updated>1717353694581</updated>
     </task>
+    <task id="LOCAL-00001" summary="Weather App">
+      <option name="closed" value="true" />
+      <created>1722252604637</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722252604637</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Weather App">
+      <option name="closed" value="true" />
+      <created>1722252626483</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722252626483</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Weather App" />
+    <option name="LAST_COMMIT_MESSAGE" value="Weather App" />
   </component>
 </project>
