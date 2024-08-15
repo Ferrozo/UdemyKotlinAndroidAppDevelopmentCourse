@@ -2,6 +2,7 @@ package com.example.capstoneapp.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,7 +38,6 @@ fun SearchBox(){
     ) {
         Row (
             modifier = Modifier
-                .padding(horizontal = 10.dp)
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -47,6 +47,7 @@ fun SearchBox(){
                 onValueChange = {},
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                 ),
@@ -61,22 +62,20 @@ fun SearchBox(){
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-
             ) {
-                Divider(Modifier.padding(horizontal = 10.dp).height(25.dp).width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
-                IconButton(
-                    modifier = Modifier
-                        .padding(0.dp)
-                        .size(65.dp),
-                    onClick = { /*TODO*/ },
-                ) {
+                Divider(
+                    Modifier
+                        .height(25.dp)
+                        .width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
+                    Spacer(modifier = Modifier.width(15.dp))
                     Icon(
                         painter = painterResource(id = R.drawable.slider),
                         contentDescription = "",
                         tint = DarkBlueColor,
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier.size(32.dp)
                     )
-                }
+                Spacer(modifier = Modifier.width(15.dp))
+
             }
         }
     }
