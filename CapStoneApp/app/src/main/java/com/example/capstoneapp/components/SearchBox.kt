@@ -32,6 +32,7 @@ fun SearchBox(){
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp),
+        shadowElevation = 2.dp,
         onClick = { /*TODO*/ }
     ) {
         Row (
@@ -73,7 +74,7 @@ fun SearchBox(){
                         painter = painterResource(id = R.drawable.slider),
                         contentDescription = "",
                         tint = DarkBlueColor,
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier.size(35.dp)
                     )
                 }
             }
