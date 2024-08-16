@@ -28,7 +28,9 @@ import com.example.capstoneapp.ui.theme.TextGrayColor
 @Composable
 fun HomeTopBar(){
     Row (
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ){
@@ -39,7 +41,7 @@ fun HomeTopBar(){
                     border = BorderStroke(width = 1.5.dp, color = TextGrayColor),
                     shape = CircleShape
                 )
-                .size(55.dp),
+                .size(50.dp),
             onClick = { /*TODO*/ },
         ) {
             Icon(
@@ -64,7 +66,7 @@ fun HomeTopBar(){
                     border = BorderStroke(width = 1.5.dp, color = TextGrayColor),
                     shape = CircleShape
                 )
-                .size(55.dp),
+                .size(50.dp),
             onClick = { /*TODO*/ },
             ) {
             Icon(
