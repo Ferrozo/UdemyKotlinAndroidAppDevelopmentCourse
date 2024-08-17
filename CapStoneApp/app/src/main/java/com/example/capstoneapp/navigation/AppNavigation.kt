@@ -10,6 +10,7 @@ import com.example.capstoneapp.screens.home.HomeScreen
 import com.example.capstoneapp.screens.login.LoginScreen
 import com.example.capstoneapp.screens.reading.ReadingScreen
 import com.example.capstoneapp.screens.search.SearchScreen
+import com.example.capstoneapp.screens.signup.SignUpScreen
 import com.example.capstoneapp.screens.update.UpdateScreen
 
 
@@ -32,6 +33,12 @@ fun AppNavigation() {
         }
         composable(AppScreens.UpdateScreen.name){
             UpdateScreen(navController = navController)
+        }
+        composable(AppScreens.LoginScreen.name){
+            LoginScreen(navController = navController)
+        }
+        composable(AppScreens.SignUpScreen.name){
+            SignUpScreen(navController = navController)
         }
         composable(AppScreens.SearchScreen.name){
             SearchScreen(navController = navController)

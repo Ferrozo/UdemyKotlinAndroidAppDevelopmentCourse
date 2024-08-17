@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         delay(timeMillis = 5000L)
-        navController.navigate(AppScreens.HomeScreen.name){
+        navController.navigate(AppScreens.LoginScreen.name){
             popUpTo(navController.graph.startDestinationId) { inclusive = true }
         }
     }

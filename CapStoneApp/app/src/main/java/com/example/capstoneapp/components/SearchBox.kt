@@ -57,13 +57,13 @@ fun SearchBox(
                     color = DarkBlueColor
                 ),
                 placeholder = {
-                              Text(
-                                  text = "Search your book",
-                                  style = TextStyle(
-                                      fontSize = 16.sp,
-                                      color = TextGrayColor
-                                    ),
-                                  )
+                    Text(
+                        text = "Search your book",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            color = TextGrayColor
+                            ),
+                    )
                 },
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,

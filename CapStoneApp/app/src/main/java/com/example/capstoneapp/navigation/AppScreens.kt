@@ -7,6 +7,7 @@ enum class AppScreens {
     SplashScreen,
     SearchScreen,
     UpdateScreen,
+    SignUpScreen,
     ReadingScreen;
 
     companion object {
@@ -19,6 +20,7 @@ enum class AppScreens {
             AppScreens.SearchScreen.name -> SearchScreen
             AppScreens.UpdateScreen.name -> UpdateScreen
             AppScreens.ReadingScreen.name -> ReadingScreen
+            AppScreens.SignUpScreen.name -> SignUpScreen
           else ->
           throw IllegalArgumentException("Route not found")
 
