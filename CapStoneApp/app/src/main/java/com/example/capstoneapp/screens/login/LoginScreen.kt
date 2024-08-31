@@ -37,21 +37,19 @@ import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.DarkBlueColor
 import com.example.capstoneapp.ui.theme.OrangeColor
 import com.example.capstoneapp.ui.theme.TextGrayColor
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginViewModel,
 ){
     val password = rememberSaveable { mutableStateOf("") }
     val email = rememberSaveable { mutableStateOf("") }
     val isValid = remember(email.value, password.value) {
         email.value.trim().isNotEmpty() && password.value.trim().isNotEmpty()
     }
-    val isLoading = remember {
-        mutableStateOf(true)
-    }
+
     val scaffoldState = remember{ SnackbarHostState() }
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -110,10 +108,7 @@ fun LoginScreen(
                 OrangeButton("Login",
                     onClick = {
                         if (isValid) {
-                            isLoading.value = true
-                            scope.launch {
-                                delay(2000L) // Simulate a login delay
-                                isLoading.value = false
+                            viewModel.signInWithEmailAndPassword(email.value, password.value){
                                 navController.navigate(AppScreens.HomeScreen.name)
                             }
                         } else {
@@ -142,7 +137,9 @@ fun LoginScreen(
                     )
                     TextButton(
                         onClick =
-                    {  }
+                        {
+                            navController.navigate(AppScreens.SignUpScreen.name)
+                        }
                     ) {
                         Text("Sign up",
                             style = TextStyle(

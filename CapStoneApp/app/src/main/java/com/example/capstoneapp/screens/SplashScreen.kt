@@ -18,19 +18,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.navigation.AppScreens
 import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.DarkBlueColor
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
+     var auth : FirebaseAuth
     LaunchedEffect(key1 = true) {
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
         delay(timeMillis = 5000L)
-        navController.navigate(AppScreens.LoginScreen.name){
-            popUpTo(navController.graph.startDestinationId) { inclusive = true }
-        }
+        if(currentUser != null) navController.navigate(AppScreens.HomeScreen.name){
+                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
+        else navController.navigate(AppScreens.LoginScreen.name){
+                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
