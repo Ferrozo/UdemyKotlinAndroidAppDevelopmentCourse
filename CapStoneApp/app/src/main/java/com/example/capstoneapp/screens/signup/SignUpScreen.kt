@@ -96,7 +96,7 @@ fun SignUpScreen(  navController: NavController, viewModel: SignUpViewModel){
                         )
                     }
                     Spacer(modifier = Modifier.height(15.dp))
-                    Text("To use your account, you need to log in first",
+                    Text("To create your account, you need to sign up",
                         style = TextStyle(
                             textAlign = TextAlign.Center,
                             fontSize = 12.sp,
@@ -108,10 +108,10 @@ fun SignUpScreen(  navController: NavController, viewModel: SignUpViewModel){
                     Spacer(modifier = Modifier.height(15.dp))
                     PasswordInputField(password = password)
                     Spacer(modifier = Modifier.height(15.dp))
-                    OrangeButton("Login",
+                    OrangeButton("Sign Up",
                         onClick = {
                             if (isValid) {
-                                viewModel.signUpWithEmailAndPassword(email.value, password.value){
+                                viewModel.createUserWithEmailAndPassword(email.value, password.value){
                                     navController.navigate(AppScreens.HomeScreen.name)
                                 }
                             } else {
@@ -131,7 +131,7 @@ fun SignUpScreen(  navController: NavController, viewModel: SignUpViewModel){
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Don't have an account?",
+                        Text("Already have an account?",
                             style = TextStyle(
                                 textAlign = TextAlign.Center,
                                 fontSize = 14.sp,
@@ -144,7 +144,7 @@ fun SignUpScreen(  navController: NavController, viewModel: SignUpViewModel){
                                 navController.navigate(AppScreens.SignUpScreen.name)
                             }
                         ) {
-                            Text("Sign up",
+                            Text("Sign in",
                                 style = TextStyle(
                                     textAlign = TextAlign.Center,
                                     fontSize = 16.sp,

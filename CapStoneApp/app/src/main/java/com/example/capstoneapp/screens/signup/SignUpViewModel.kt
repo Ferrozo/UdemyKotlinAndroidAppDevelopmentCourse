@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.capstoneapp.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +21,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     val loading: LiveData<Boolean> = _loading
     private lateinit var auth: FirebaseAuth
 
-    fun signUpWithEmailAndPassword(email:String, password: String, home: ()-> Unit)
+    fun createUserWithEmailAndPassword(email:String, password: String, home: ()-> Unit)
     = viewModelScope.launch {
         auth = Firebase.auth
         try {
@@ -27,6 +29,8 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 .addOnCompleteListener(){ task ->
                     if(task.isSuccessful){
                         _loading.value = false
+                        val username = email.split('@')[0]
+                        addUserToFirestore(username)
                         home()
                     }else{
                         task.exception?.localizedMessage
@@ -37,4 +41,16 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private fun addUserToFirestore(username: String){
+       val uid = auth.currentUser?.uid
+        val email = auth.currentUser?.email.toString()
+
+        val user = UserModel(
+            uid = uid!!,
+            displayName = username,
+            email = email
+        )
+
+        Firebase.firestore.collection("users").add(user)
+    }
 }

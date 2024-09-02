@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.capstoneapp.components.BookCard
+import com.example.capstoneapp.components.BottomBar
 import com.example.capstoneapp.components.CategoryMenu
 import com.example.capstoneapp.components.HomeTopBar
 import com.example.capstoneapp.components.SearchBox
@@ -46,7 +47,12 @@ fun HomeScreen(navController: NavController){
     val currentIndex = remember {
         mutableIntStateOf(0)
     }
-    Scaffold(modifier = Modifier.fillMaxSize()) { it ->
+
+    Scaffold(
+        bottomBar = {
+            BottomBar()
+        },
+        modifier = Modifier.fillMaxSize()) { it ->
         Surface( modifier =
         Modifier
             .padding(it)
@@ -59,9 +65,9 @@ fun HomeScreen(navController: NavController){
                     .fillMaxSize(),
 
                 ){
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 HomeTopBar()
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(30.dp))
                 SearchBox(value = onValueChange.value, onValueChange = { newValue
                     -> onValueChange.value = newValue
                 })
@@ -107,7 +113,6 @@ fun HomeScreen(navController: NavController){
 
                 }
                 Spacer(modifier = Modifier.height(60.dp))
-
             }
         }
     }
