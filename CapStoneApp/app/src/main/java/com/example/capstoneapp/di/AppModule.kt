@@ -1,6 +1,7 @@
 package com.example.capstoneapp.di
 
 import com.example.capstoneapp.network.BookAPI
+import com.example.capstoneapp.repository.BookRepository
 import com.example.capstoneapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideBookRepository(
+        api: BookAPI
+    ) = BookRepository(api)
 
     @Singleton
     @Provides

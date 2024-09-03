@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,15 +32,13 @@ import com.example.capstoneapp.components.CategoryMenu
 import com.example.capstoneapp.components.HomeTopBar
 import com.example.capstoneapp.components.SearchBox
 import com.example.capstoneapp.components.TrendCard
+import com.example.capstoneapp.navigation.AppScreens
 import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.TextGrayColor
 
-
 @Composable
 fun HomeScreen(navController: NavController){
-    val onValueChange = remember {
-        mutableStateOf("")
-    }
+
     val categoryList  =listOf("Trending", "Cartoon", "Romance", "Action", "Comedy")
 
     val currentIndex = remember {
@@ -63,14 +60,16 @@ fun HomeScreen(navController: NavController){
                 modifier = Modifier
                     .verticalScroll(state = rememberScrollState())
                     .fillMaxSize(),
-
                 ){
                 Spacer(modifier = Modifier.height(20.dp))
                 HomeTopBar()
                 Spacer(modifier = Modifier.height(30.dp))
-                SearchBox(value = onValueChange.value, onValueChange = { newValue
-                    -> onValueChange.value = newValue
-                })
+                SearchBox(
+                    value = "",
+                    onValueChange = {},
+                    enabled= false,
+                    onClick = {navController.navigate(AppScreens.SearchScreen.name)}
+                )
                 Spacer(modifier = Modifier.height(20.dp))
                 CategoryMenu(
                     listOfCategory = categoryList,
@@ -110,11 +109,9 @@ fun HomeScreen(navController: NavController){
                         BookCard(navController = navController)
                         BookCard(navController = navController)
                     }
-
                 }
                 Spacer(modifier = Modifier.height(60.dp))
             }
         }
     }
-
 }

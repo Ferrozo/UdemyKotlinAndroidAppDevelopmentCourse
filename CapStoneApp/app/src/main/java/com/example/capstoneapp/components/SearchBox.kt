@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,7 +32,10 @@ import com.example.capstoneapp.ui.theme.WhiteColor
 @Composable
 fun SearchBox(
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    enabled: Boolean,
+    onClick: ()-> Unit? = {},
+    onSearch: ()-> Unit? = {}
 ){
     Surface(
         color = WhiteColor,
@@ -40,7 +44,7 @@ fun SearchBox(
             .height(70.dp)
             .padding(horizontal = 20.dp),
         shadowElevation = 2.dp,
-        onClick = { /*TODO*/ }
+        onClick = {onClick()}
     ) {
         Row (
             modifier = Modifier
@@ -49,6 +53,8 @@ fun SearchBox(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             TextField(
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
                 singleLine = true,
                 value = value,
                 onValueChange = onValueChange,
@@ -67,38 +73,34 @@ fun SearchBox(
                 },
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                 ),
-                prefix = {
-                    Row {
-                        Icon(
-                            painter = painterResource(id = R.drawable.search),
-                            contentDescription = null,
-                            tint = DarkBlueColor,
-                            modifier = Modifier.size(25.dp)
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
+
+                suffix = {
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Divider(
+                            Modifier
+                                .height(25.dp)
+                                .width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
+                        Spacer(modifier = Modifier.width(15.dp))
+                        IconButton(onClick = { onSearch()}) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = null,
+                                tint = DarkBlueColor,
+                                modifier = Modifier.size(25.dp)
+                            )
+                        }
                     }
                 }
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Divider(
-                    Modifier
-                        .height(25.dp)
-                        .width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
-                    Spacer(modifier = Modifier.width(15.dp))
-                    Icon(
-                        painter = painterResource(id = R.drawable.slider),
-                        contentDescription = "",
-                        tint = DarkBlueColor,
-                        modifier = Modifier.size(32.dp)
-                    )
-                Spacer(modifier = Modifier.width(15.dp))
-            }
+
         }
     }
 }

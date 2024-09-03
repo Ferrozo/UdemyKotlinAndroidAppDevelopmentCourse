@@ -11,6 +11,7 @@ import com.example.capstoneapp.screens.home.HomeScreen
 import com.example.capstoneapp.screens.login.LoginScreen
 import com.example.capstoneapp.screens.login.LoginViewModel
 import com.example.capstoneapp.screens.reading.ReadingScreen
+import com.example.capstoneapp.screens.search.SearchBookViewModel
 import com.example.capstoneapp.screens.search.SearchScreen
 import com.example.capstoneapp.screens.signup.SignUpScreen
 import com.example.capstoneapp.screens.signup.SignUpViewModel
@@ -46,7 +47,8 @@ fun AppNavigation() {
             SignUpScreen(navController = navController, viewModel)
         }
         composable(AppScreens.SearchScreen.name){
-            SearchScreen(navController = navController)
+            val viewModel = hiltViewModel<SearchBookViewModel>()
+            SearchScreen(navController = navController, viewModel = viewModel)
         }
     }
 }
