@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -28,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.capstoneapp.components.HorizontalBookCard
 import com.example.capstoneapp.components.SearchBox
 import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.DarkBlueColor
@@ -88,7 +88,7 @@ fun SearchScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.fillMaxSize()
                     ){
-                        Text(text = "Loading...")
+                       CircularProgressIndicator()
                     }
                 else
                 Column (
