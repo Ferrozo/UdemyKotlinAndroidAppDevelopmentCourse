@@ -31,11 +31,11 @@ import com.example.capstoneapp.ui.theme.WhiteColor
 
 @Composable
 fun SearchBox(
-    value: String,
+    value: String ,
     onValueChange: (String) -> Unit,
     enabled: Boolean,
     onClick: ()-> Unit? = {},
-    onSearch: ()-> Unit? = {}
+    onSearch: (String) -> Unit = {}
 ){
     Surface(
         color = WhiteColor,
@@ -89,7 +89,8 @@ fun SearchBox(
                                 .height(25.dp)
                                 .width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
                         Spacer(modifier = Modifier.width(15.dp))
-                        IconButton(onClick = { onSearch()}) {
+                        IconButton(onClick = {onSearch(value)
+                        }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.search),
                                 contentDescription = null,

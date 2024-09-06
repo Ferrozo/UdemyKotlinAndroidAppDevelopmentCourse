@@ -1,6 +1,5 @@
 package com.example.capstoneapp.repository
 
-import com.example.capstoneapp.data.DataOrException
 import com.example.capstoneapp.data.Resource
 import com.example.capstoneapp.models.Item
 import com.example.capstoneapp.network.BookAPI
@@ -8,8 +7,6 @@ import javax.inject.Inject
 
 class BookRepository @Inject constructor(private val api: BookAPI){
 
-    private val dataOrException = DataOrException<List<Item>, Boolean, Exception>()
-    private val bookInfoDataOrException = DataOrException<Item, Boolean, Exception>()
     suspend fun getBooks(searchQuery: String): Resource<List<Item>>{
         val response = try {
             Resource.Loading(data = true)

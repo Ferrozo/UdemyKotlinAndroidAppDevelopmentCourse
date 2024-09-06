@@ -68,7 +68,8 @@ fun HomeScreen(navController: NavController){
                     value = "",
                     onValueChange = {},
                     enabled= false,
-                    onClick = {navController.navigate(AppScreens.SearchScreen.name)}
+                    onClick = {navController.navigate(AppScreens.SearchScreen.name)},
+                    onSearch = {}
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 CategoryMenu(
