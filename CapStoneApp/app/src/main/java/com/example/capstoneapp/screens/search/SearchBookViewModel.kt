@@ -10,7 +10,6 @@ import com.example.capstoneapp.data.Resource
 import com.example.capstoneapp.models.Item
 import com.example.capstoneapp.repository.BookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,15 +17,48 @@ import javax.inject.Inject
 class SearchBookViewModel@Inject constructor(private val repository: BookRepository): ViewModel() {
 
      var list: List<Item> by mutableStateOf(listOf())
+     var categoryList: List<Item> by mutableStateOf(listOf())
+    var isLoading: Boolean by mutableStateOf(false)
+    var isLoadingByCategory: Boolean by mutableStateOf(false)
     init {
         loadBooks()
     }
 
     private fun loadBooks(){
-        searchBooks("Romance")
+        searchByCategoryBooks("Trending")
     }
+
+    fun searchByCategoryBooks(query: String){
+        viewModelScope.launch {
+            isLoadingByCategory = true
+            if(query.isEmpty()){
+                return@launch
+            }
+            try {
+                when(val response = repository.getBooks(query)) {
+                    is Resource.Success -> {
+                        categoryList = response.data!!
+                        isLoadingByCategory = false
+
+                    }
+                    is Resource.Error -> {
+                        isLoadingByCategory = false
+
+                    }
+                    is Resource.Loading -> {
+                        isLoadingByCategory = false
+                    }
+                }
+            }catch (exception: Exception){
+                isLoadingByCategory = false
+                Log.e("ERROR", "Searching books error: ${exception.message.toString()}")
+            }
+        }
+    }
+
      fun searchBooks(query: String){
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
+            isLoading = true
             if(query.isEmpty()){
                 return@launch
             }
@@ -34,15 +66,19 @@ class SearchBookViewModel@Inject constructor(private val repository: BookReposit
                 when(val response = repository.getBooks(query)) {
                     is Resource.Success -> {
                         list = response.data!!
+                        isLoading = false
                     }
                     is Resource.Error -> {
-                       Log.e("ERROR", "Searching books error: Failed to get books")
+                        isLoading = false
+
                     }
                     is Resource.Loading -> {
-                        Log.e("LOADING", "Loading books")
+                        isLoading = false
+
                     }
                 }
             }catch (exception: Exception){
+                isLoading = false
                 Log.e("ERROR", "Searching books error: ${exception.message.toString()}")
             }
         }

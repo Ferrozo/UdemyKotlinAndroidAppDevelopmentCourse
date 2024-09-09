@@ -27,7 +27,8 @@ fun AppNavigation() {
             SplashScreen(navController = navController)
         }
         composable(AppScreens.HomeScreen.name){
-            HomeScreen(navController = navController)
+            val viewModel = hiltViewModel<SearchBookViewModel>()
+            HomeScreen(navController = navController, viewModel=viewModel )
         }
         composable(AppScreens.DetailScreen.name){
             DetailScreen(navController = navController)

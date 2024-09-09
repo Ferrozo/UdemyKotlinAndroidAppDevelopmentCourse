@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,8 +32,7 @@ import com.example.capstoneapp.ui.theme.WhiteColor
 
 @Composable
 fun SearchBox(
-    value: String ,
-    onValueChange: (String) -> Unit,
+     value: MutableState<String>,
     enabled: Boolean,
     onClick: ()-> Unit? = {},
     onSearch: (String) -> Unit = {}
@@ -56,8 +56,8 @@ fun SearchBox(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = enabled,
                 singleLine = true,
-                value = value,
-                onValueChange = onValueChange,
+                value = value.value,
+                onValueChange = {value.value = it},
                 textStyle = TextStyle(
                     fontSize = 16.sp,
                     color = DarkBlueColor
@@ -78,7 +78,6 @@ fun SearchBox(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
                 ),
-
                 suffix = {
                     Row(
                         horizontalArrangement = Arrangement.End,
@@ -89,8 +88,7 @@ fun SearchBox(
                                 .height(25.dp)
                                 .width(1.5.dp), color = TextGrayColor.copy(alpha = 0.5f))
                         Spacer(modifier = Modifier.width(15.dp))
-                        IconButton(onClick = {onSearch(value)
-                        }) {
+                        IconButton(onClick = {onSearch(value.value)}) {
                             Icon(
                                 painter = painterResource(id = R.drawable.search),
                                 contentDescription = null,
@@ -99,7 +97,7 @@ fun SearchBox(
                             )
                         }
                     }
-                }
+                },
             )
 
         }

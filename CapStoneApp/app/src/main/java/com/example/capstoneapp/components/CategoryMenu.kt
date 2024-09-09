@@ -23,7 +23,8 @@ import com.example.capstoneapp.ui.theme.TextGrayColor
 @Composable
 fun CategoryMenu(
     listOfCategory: List<String>,
-    currentIndex: MutableIntState
+    currentIndex: MutableIntState,
+    onClicked: (String) -> Unit,
 ){
 
     LazyRow {
@@ -32,6 +33,7 @@ fun CategoryMenu(
                modifier = Modifier.padding(start = 10.dp),
                 onClick = {
                     currentIndex.intValue = it
+                    onClicked(listOfCategory[currentIndex.intValue])
                 },
             ) {
                 Column(

@@ -1,6 +1,5 @@
 package com.example.capstoneapp.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,19 +19,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.R
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.capstoneapp.models.Item
 import com.example.capstoneapp.ui.theme.BlueColor
 import com.example.capstoneapp.ui.theme.WhiteColor
+import com.example.capstoneapp.utils.Constants
 
 
 @Composable
-fun TrendCard() {
+fun TrendCard(
+    book: Item
+) {
+    val coverBookImage: String = book.volumeInfo.imageLinks.smallThumbnail.ifEmpty { Constants.DEFAULTCOVERBOOK }
+
     Surface(
         modifier = Modifier
             .height(200.dp)
@@ -53,7 +62,7 @@ fun TrendCard() {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Here Go The Book Title",
+                    text = book.volumeInfo.title,
                     style = TextStyle(
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
@@ -79,13 +88,24 @@ fun TrendCard() {
                     )
                 }
             }
-            Image(
-                painter = painterResource(id = R.drawable.cover),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(coverBookImage)
+                    .crossfade(true)
+                    .build(),
+                placeholder = BrushPainter(
+                    Brush.linearGradient(
+                        listOf(
+                            Color(color = 0xFFFFFFFF),
+                            Color(color = 0xFFDDDDDD),
+                        )
+                    )),
                 modifier = Modifier
                     .fillMaxHeight()
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                contentScale = ContentScale.Crop,
+                alpha = 0.5f,
+                contentDescription = "movie image"
             )
         }
     }

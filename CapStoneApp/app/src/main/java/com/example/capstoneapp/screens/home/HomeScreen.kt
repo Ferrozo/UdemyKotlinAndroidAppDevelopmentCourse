@@ -9,14 +9,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,23 +36,30 @@ import com.example.capstoneapp.components.HomeTopBar
 import com.example.capstoneapp.components.SearchBox
 import com.example.capstoneapp.components.TrendCard
 import com.example.capstoneapp.navigation.AppScreens
+import com.example.capstoneapp.screens.search.SearchBookViewModel
 import com.example.capstoneapp.ui.theme.BackgroundColor
+import com.example.capstoneapp.ui.theme.OrangeColor
 import com.example.capstoneapp.ui.theme.TextGrayColor
 
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController, viewModel: SearchBookViewModel){
 
-    val categoryList  =listOf("Trending", "Cartoon", "Romance", "Action", "Comedy")
+    val categoryList = listOf("Trending", "Cartoon", "Romance", "Action", "Comedy")
+
+    val resultByCategory = viewModel.categoryList
+    val allBooks = viewModel.list
 
     val currentIndex = remember {
         mutableIntStateOf(0)
     }
-
+    val value = remember {
+        mutableStateOf("")
+    }
     Scaffold(
         bottomBar = {
             BottomBar()
         },
-        modifier = Modifier.fillMaxSize()) { it ->
+        modifier = Modifier.fillMaxSize()) {
         Surface( modifier =
         Modifier
             .padding(it)
@@ -65,8 +75,7 @@ fun HomeScreen(navController: NavController){
                 HomeTopBar()
                 Spacer(modifier = Modifier.height(30.dp))
                 SearchBox(
-                    value = "",
-                    onValueChange = {},
+                    value = value,
                     enabled= false,
                     onClick = {navController.navigate(AppScreens.SearchScreen.name)},
                     onSearch = {}
@@ -74,10 +83,28 @@ fun HomeScreen(navController: NavController){
                 Spacer(modifier = Modifier.height(20.dp))
                 CategoryMenu(
                     listOfCategory = categoryList,
-                    currentIndex = currentIndex
+                    currentIndex = currentIndex,
+                    onClicked = {
+                        viewModel.searchByCategoryBooks(query = categoryList[currentIndex.intValue])
+                    }
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                TrendCard()
+                if(viewModel.isLoadingByCategory)
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize()
+                    ){
+                        CircularProgressIndicator(
+                            color = OrangeColor
+                        )
+                    }
+                else
+                LazyRow {
+                    items(items  = resultByCategory){ book ->
+                        TrendCard( book = book)
+                    }
+                }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
@@ -105,12 +132,22 @@ fun HomeScreen(navController: NavController){
                     }
                 }
                 Spacer(modifier = Modifier.height(10.dp))
-                LazyRow {
-                    item(){
-                        BookCard(navController = navController)
-                        BookCard(navController = navController)
+                if(viewModel.isLoading)
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize()
+                    ){
+                        CircularProgressIndicator(
+                            color =OrangeColor
+                        )
                     }
-                }
+                else
+                    LazyRow {
+                        items(items  = allBooks){ book ->
+                        BookCard(navController = navController, book = book)
+                        }
+                    }
                 Spacer(modifier = Modifier.height(60.dp))
             }
         }

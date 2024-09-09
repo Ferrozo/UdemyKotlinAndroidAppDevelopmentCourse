@@ -1,6 +1,5 @@
 package com.example.capstoneapp.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -22,25 +19,31 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.capstoneapp.R
+import com.example.capstoneapp.models.Item
 import com.example.capstoneapp.navigation.AppScreens
 import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.TextGrayColor
 import com.example.capstoneapp.ui.theme.WhiteColor
+import com.example.capstoneapp.utils.Constants
 
 
 @Composable
-fun BookCard(navController: NavController){
+fun BookCard(navController: NavController, book: Item){
+    val coverBookImage: String = book.volumeInfo.imageLinks.smallThumbnail.ifBlank { Constants.DEFAULTCOVERBOOK }
     Surface(
         modifier = Modifier
             .height(300.dp)
@@ -61,13 +64,24 @@ fun BookCard(navController: NavController){
                     .fillMaxWidth()
                     .height(230.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.cover1),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(coverBookImage)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = BrushPainter(
+                        Brush.linearGradient(
+                            listOf(
+                                Color(color = 0xFFFFFFFF),
+                                Color(color = 0xFFDDDDDD),
+                            )
+                        )),
                     modifier = Modifier
                         .fillMaxHeight()
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.Crop,
+                    alpha = 0.5f,
+                    contentDescription = "movie image"
                 )
                 Row(
                     modifier = Modifier
@@ -96,7 +110,7 @@ fun BookCard(navController: NavController){
                 modifier = Modifier.padding(horizontal = 15.dp)
             ) {
                 Text(
-                    text = "Here Go The Book Title",
+                    text = book.volumeInfo.title,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -105,7 +119,7 @@ fun BookCard(navController: NavController){
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "By: Here Go The Book Title",
+                    text = "By: ${book.volumeInfo.authors}",
                     style = TextStyle(
                         fontSize = 12.sp,
                         color = TextGrayColor
