@@ -2,11 +2,14 @@ package com.example.capstoneapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.capstoneapp.screens.SplashScreen
 import com.example.capstoneapp.screens.detail.DetailScreen
+import com.example.capstoneapp.screens.detail.DetailViewModel
 import com.example.capstoneapp.screens.home.HomeScreen
 import com.example.capstoneapp.screens.login.LoginScreen
 import com.example.capstoneapp.screens.login.LoginViewModel
@@ -30,8 +33,13 @@ fun AppNavigation() {
             val viewModel = hiltViewModel<SearchBookViewModel>()
             HomeScreen(navController = navController, viewModel=viewModel )
         }
-        composable(AppScreens.DetailScreen.name){
-            DetailScreen(navController = navController)
+        composable(AppScreens.DetailScreen.name+"/{bookID}",
+            arguments = listOf(navArgument(name = "bookID"){type= NavType.StringType}),
+            ){backStackEntry ->
+            val viewModel = hiltViewModel<DetailViewModel>()
+            backStackEntry.arguments?.getString("bookID").let { id ->
+                DetailScreen(navController = navController, bookId = id, viewModel = viewModel)
+            }
         }
         composable(AppScreens.ReadingScreen.name){
             ReadingScreen(navController = navController)

@@ -38,7 +38,8 @@ import com.example.capstoneapp.utils.Constants
 
 @Composable
 fun TrendCard(
-    book: Item
+    book: Item,
+    onClick: () -> Unit
 ) {
     val coverBookImage: String = book.volumeInfo.imageLinks.smallThumbnail.ifEmpty { Constants.DEFAULTCOVERBOOK }
 
@@ -47,6 +48,7 @@ fun TrendCard(
             .height(200.dp)
             .padding(horizontal = 20.dp)
             .fillMaxWidth(),
+        onClick = onClick,
         color = BlueColor
     ){
         Row(

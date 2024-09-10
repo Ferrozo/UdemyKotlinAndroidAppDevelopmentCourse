@@ -50,7 +50,7 @@ fun BookCard(navController: NavController, book: Item){
             .width(220.dp)
             .padding(start = 10.dp),
         onClick = {
-            navController.navigate(AppScreens.DetailScreen.name)
+            navController.navigate(AppScreens.DetailScreen.name+"/${book.id}")
         },
         color = WhiteColor,
     ) {

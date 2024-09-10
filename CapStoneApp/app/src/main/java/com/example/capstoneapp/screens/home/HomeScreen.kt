@@ -100,11 +100,16 @@ fun HomeScreen(navController: NavController, viewModel: SearchBookViewModel){
                         )
                     }
                 else
-                LazyRow {
-                    items(items  = resultByCategory){ book ->
-                        TrendCard( book = book)
+                    LazyRow {
+                        items(items  = resultByCategory){ book ->
+                        TrendCard(
+                                book = book,
+                                onClick = {
+                                    navController.navigate(AppScreens.DetailScreen.name+"/${book.id}")
+                                }
+                            )
+                        }
                     }
-                }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier
