@@ -16,9 +16,11 @@ import com.example.capstoneapp.ui.theme.OrangeColor
 import com.example.capstoneapp.ui.theme.WhiteColor
 
 @Composable
-fun OrangeButton(title: String, onClick:  () -> Unit = {}){
+fun OrangeButton(
+    modifier: Modifier,
+    title: String, onClick:  () -> Unit = {}){
     Button(
-        modifier = Modifier
+        modifier = modifier
             .height(60.dp)
             .fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(

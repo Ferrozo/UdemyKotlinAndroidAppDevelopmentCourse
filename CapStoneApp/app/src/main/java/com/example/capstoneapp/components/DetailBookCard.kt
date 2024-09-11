@@ -1,12 +1,14 @@
 package com.example.capstoneapp.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -43,7 +47,6 @@ import com.example.capstoneapp.ui.theme.TextGrayColor
 import com.example.capstoneapp.utils.Constants
 
 @OptIn(ExperimentalLayoutApi::class)
-//@Preview
 @Composable
 fun DetailBookCard (
     book: Item
@@ -65,14 +68,14 @@ fun DetailBookCard (
                 Surface(
                     color = BlueColor,
                     modifier = Modifier
-                        .padding(start = 20.dp)
+                        .padding(start = 10.dp)
                         .height(280.dp)
                         .fillMaxSize()
                 ) {}
                 Surface(
                     color = BackgroundColor,
                     modifier = Modifier
-                        .padding(start = 10.dp, top = 15.dp, end = 15.dp, bottom = 5.dp)
+                        .padding(top = 15.dp, end = 15.dp, bottom = 5.dp)
                         .fillMaxSize(),
                     border = BorderStroke(width = 1.dp, color = TextGrayColor )
                 ) {
@@ -102,6 +105,8 @@ fun DetailBookCard (
                     .fillMaxSize()
             ) {
                 Text(
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     text = book.volumeInfo.title,
                     style = TextStyle(
                         fontSize = 24.sp,
@@ -125,32 +130,47 @@ fun DetailBookCard (
                         Icons.Default.Star,
                         contentDescription = null,
                         tint = OrangeColor,
-                        modifier = Modifier.size(25.dp)
+                        modifier = Modifier.size(20.dp)
                         )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "${book.volumeInfo.averageRating}(${book.volumeInfo.ratingsCount} Review)",
+                        text = "${book.volumeInfo.averageRating} ( ${book.volumeInfo.ratingsCount} Review )",
                         style = TextStyle(
-                            fontSize = 12.sp,
+                            fontSize = 13.sp,
                             color = Color.Black.copy(alpha = 0.85f)
                         )
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 FlowRow(
-                    maxItemsInEachRow = 3
+                    Modifier
+                        .padding(5.dp)
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(2.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    maxItemsInEachRow = 2,
                 ) {
-                    Card(
-                        modifier = Modifier.padding(5.dp),
-                        shape = CircleShape.copy(all = CornerSize(2.dp))
-                    ){
-                        Text(
-                            modifier = Modifier.padding(5.dp),
-                            text="Category",
-                            style = TextStyle(
-                                fontSize = 14.sp
+                    repeat(if(book.volumeInfo.categories.size > 4) 4 else book.volumeInfo.categories.size) { index->
+                        val category: String = book.volumeInfo.categories[index]
+                        Card(
+                            modifier = Modifier.padding(2.dp),
+                            colors =  CardDefaults.cardColors(
+                                containerColor = TextGrayColor.copy(alpha = 0.4f)
+                            ),
+                            shape = CircleShape.copy(all = CornerSize(2.dp))
+                        ){
+                            Text(
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip,
+                                modifier = Modifier.padding(5.dp),
+                                text=category,
+                                style = TextStyle(
+                                    color = Color.Gray,
+                                    fontSize = 10.sp
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

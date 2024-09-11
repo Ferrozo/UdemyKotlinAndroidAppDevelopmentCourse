@@ -23,6 +23,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     fun createUserWithEmailAndPassword(email:String, password: String, home: ()-> Unit)
     = viewModelScope.launch {
+        _loading.value = true
         auth = Firebase.auth
         try {
             auth.createUserWithEmailAndPassword(email, password)
@@ -37,6 +38,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                     }
                 }
         }catch (error: Exception){
+            _loading.value = false
             error.localizedMessage?.let { Log.w(TAG, it) }
         }
     }

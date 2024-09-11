@@ -2,13 +2,15 @@ package com.example.capstoneapp.screens.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,10 +32,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.capstoneapp.components.HorizontalBookCard
 import com.example.capstoneapp.components.SearchBox
+import com.example.capstoneapp.navigation.AppScreens
 import com.example.capstoneapp.ui.theme.BackgroundColor
 import com.example.capstoneapp.ui.theme.DarkBlueColor
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     navController: NavController,
@@ -44,6 +48,9 @@ fun SearchScreen(
     }
 
     val searchResult = viewModel.list
+    var maxLines = remember {
+        mutableStateOf(2)
+    }
 
     Scaffold {
         Surface(
@@ -103,9 +110,18 @@ fun SearchScreen(
                         )
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    LazyColumn {
-                        items(items  = searchResult){book ->
-                            HorizontalBookCard(book = book)
+                    FlowColumn(
+                        Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        maxItemsInEachColumn = 5,
+                    ) {
+                        repeat(searchResult.size) { index->
+                            HorizontalBookCard(book = searchResult[index], onClick = {
+                                navController.navigate(AppScreens.DetailScreen.name+"/${searchResult[index].id}")
+                            })
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -61,96 +62,108 @@ fun SignUpScreen(  navController: NavController, viewModel: SignUpViewModel){
             color = BackgroundColor,
         ) {
             Surface(
-
                 color = BackgroundColor,
                 modifier = Modifier
                     .padding(it)
                     .fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 20.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row (
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-
+            )
+            {
+                if(viewModel.loading.value == true){
+                    Column (
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize()
                     ){
-                        Text("KARITA",
-                            style = TextStyle(
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.Black,
-                                color = DarkBlueColor
-                            )
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Text("Reader",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                color = DarkBlueColor
-                            )
+                        CircularProgressIndicator(
+                            color = OrangeColor
                         )
                     }
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Text("To create your account, you need to sign up",
-                        style = TextStyle(
-                            textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
-                            color = TextGrayColor
-                        )
-                    )
-                    Spacer(modifier = Modifier.height(80.dp))
-                    EmailInputField(email= email)
-                    Spacer(modifier = Modifier.height(15.dp))
-                    PasswordInputField(password = password)
-                    Spacer(modifier = Modifier.height(15.dp))
-                    OrangeButton("Sign Up",
-                        onClick = {
-                            if (isValid) {
-                                viewModel.createUserWithEmailAndPassword(email.value, password.value){
-                                    navController.navigate(AppScreens.HomeScreen.name)
-                                }
-                            } else {
-                                scope.launch {
-                                    scaffoldState.showSnackbar(
-                                        "Please make sure you have valid credentials",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
-                            }
-                        },
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Row(
+                } else {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Already have an account?",
+                        Row (
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+
+                        ){
+                            Text("KARITA",
+                                style = TextStyle(
+                                    fontSize = 28.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = DarkBlueColor
+                                )
+                            )
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Text("Reader",
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    color = DarkBlueColor
+                                )
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Text("To create your account, you need to sign up",
                             style = TextStyle(
                                 textAlign = TextAlign.Center,
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = TextGrayColor
                             )
                         )
-                        TextButton(
-                            onClick =
-                            {
-                                navController.navigate(AppScreens.SignUpScreen.name)
-                            }
+                        Spacer(modifier = Modifier.height(80.dp))
+                        EmailInputField(email= email)
+                        Spacer(modifier = Modifier.height(15.dp))
+                        PasswordInputField(password = password)
+                        Spacer(modifier = Modifier.height(15.dp))
+                        OrangeButton(modifier = Modifier,"Sign Up",
+                            onClick = {
+                                if (isValid) {
+                                    viewModel.createUserWithEmailAndPassword(email.value, password.value){
+                                        navController.navigate(AppScreens.HomeScreen.name)
+                                    }
+                                } else {
+                                    scope.launch {
+                                        scaffoldState.showSnackbar(
+                                            "Please make sure you have valid credentials",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                }
+                            },
+                        )
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("Sign in",
+                            Text("Already have an account?",
                                 style = TextStyle(
                                     textAlign = TextAlign.Center,
-                                    fontSize = 16.sp,
-                                    color = OrangeColor
+                                    fontSize = 14.sp,
+                                    color = TextGrayColor
                                 )
                             )
+                            TextButton(
+                                onClick =
+                                {
+                                    navController.navigate(AppScreens.SignUpScreen.name)
+                                }
+                            ) {
+                                Text("Sign in",
+                                    style = TextStyle(
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 16.sp,
+                                        color = OrangeColor
+                                    )
+                                )
+                            }
                         }
                     }
                 }

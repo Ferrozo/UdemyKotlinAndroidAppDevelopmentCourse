@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -41,6 +43,7 @@ fun HorizontalBookCard(
         modifier = Modifier
             .height(60.dp)
             .width(150.dp)
+            .padding(top = 10.dp, start = 5.dp)
             .clickable { onClick() }
     ){
         Row {
@@ -51,7 +54,7 @@ fun HorizontalBookCard(
                     .build(),
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(60.dp)
+                    .width(50.dp)
                     .clip(shape = CircleShape.copy(all = CornerSize(5.dp))),
                 placeholder = BrushPainter(
                     Brush.linearGradient(
@@ -70,6 +73,8 @@ fun HorizontalBookCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     text=book.volumeInfo.title,
                     style = TextStyle(
                         color = Color.Black.copy(alpha = 0.7f),
@@ -79,6 +84,8 @@ fun HorizontalBookCard(
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     text="By:${book.volumeInfo.authors}",
                     style = TextStyle(
                         fontSize = 10.sp,

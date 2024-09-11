@@ -1,5 +1,6 @@
 package com.example.capstoneapp.screens.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     private  var auth: FirebaseAuth = Firebase.auth
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit)
     = viewModelScope.launch {
+        _loading.value = true
         try {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener() { task ->
@@ -36,10 +38,13 @@ class LoginViewModel @Inject constructor(): ViewModel() {
 
     fun signOut()
     = viewModelScope.launch{
+        _loading.value = true
         try {
+            _loading.value = false
             auth.signOut()
         }catch (error: Exception){
-            print("$error")
+            Log.d("SIGN OUT","$error")
+            _loading.value = false
         }
     }
 }
